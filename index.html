@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cholado Race — Juego de Mesa Interactivo</title>
+    <meta name="description" content="Cholado Race: un juego de mesa interactivo sobre vendedores de cholados en Valledupar. ¡Sé el primero en completar tu día de ventas!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=31">
+</head>
+<body>
+    <!-- ===== GLOBAL NAVIGATION (LEFT) ===== -->
+    <div id="global-nav" class="global-nav hidden">
+        <button id="nav-btn-home" class="nav-btn" title="Ir al Inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </button>
+        <button id="nav-btn-back" class="nav-btn" title="Volver Atrás">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+    </div>
+
+    <!-- ===== GLOBAL NAVIGATION (RIGHT) ===== -->
+    <div id="global-nav-right" class="global-nav-right hidden">
+        <button id="nav-btn-pause" class="nav-btn" title="Pausar Juego">
+            <!-- Icono Pause -->
+            <svg id="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            <!-- Icono Play (oculto por defecto) -->
+            <svg id="icon-play" class="hidden-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </button>
+        <button id="nav-btn-vol" class="nav-btn" title="Silenciar">
+            <!-- Icono Volumen On -->
+            <svg id="icon-vol-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <!-- Icono Volumen Off (oculto por defecto) -->
+            <svg id="icon-vol-off" class="hidden-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        </button>
+    </div>
+
+    <!-- ===== START SCREEN ===== -->
+    <div id="start-screen" class="start-screen">
+        <!-- Fondo de ondas puro -->
+        <img src="../../Pantallas/Ondas.png" alt="Fondo Ondas" class="start-screen__bg">
+        
+        <!-- Objetos 3D flotantes (zona izquierda) -->
+        <div class="start-screen__float-area">
+            <img src="../../Pantallas/Objetos%203D.png" alt="Objetos 3D" class="start-screen__objects-img">
+            <div class="dice-tip-fix"></div>
+        </div>
+
+        <!-- Contenido (zona derecha) -->
+        <div class="start-screen__content">
+            <div class="start-title">
+                <span class="start-title__cholado">CHOLADO</span>
+                <span class="start-title__race-wrap">
+                    <span class="start-title__race-highlight"></span>
+                    <span class="start-title__race">RACE</span>
+                </span>
+            </div>
+            <button class="start-btn start-screen__btn" id="btn-iniciar">
+                <span>INICIAR</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </div>
+
+        <!-- ===== BOTTOM RIGHT NAV ===== -->
+        <div class="global-nav-bottom-right">
+            <button id="credits-btn" class="nav-btn" title="Créditos">
+                <svg viewBox="3 3 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </button>
+            <button id="help-btn" class="nav-btn" title="Reglas del juego">
+                <svg viewBox="4 5 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </button>
+        </div>
+
+        <!-- ===== CREDITS MODAL ===== -->
+        <div id="credits-modal" class="rules-modal hidden">
+            <div class="rules-modal__backdrop" id="credits-backdrop"></div>
+            <div class="rules-modal__content credits-modal__content">
+                <div class="rules-modal__header">
+                    <span class="rules-modal__title">Créditos</span>
+                    <button class="rules-modal__close" id="credits-close">✕</button>
+                </div>
+                <div class="credits-body">
+                    <div class="credits-photo-wrap">
+                        <img src="../../Pantallas/Wendy.jpeg" alt="Wendy" class="credits-photo">
+                    </div>
+                    <p class="credits-greeting">Hola, soy <strong>Wendy</strong></p>
+                    <p class="credits-role">Creadora de Cholado Race</p>
+                    <p class="credits-text">Este juego nació para que conozcas la historia y el día a día de los choladeros de Valledupar — personas que con su carrito y sus jarabes representan el alma de nuestra ciudad.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RULES MODAL ===== -->
+        <div id="rules-modal" class="rules-modal hidden">
+            <div class="rules-modal__backdrop" id="rules-backdrop"></div>
+            <div class="rules-modal__content">
+                <div class="rules-modal__header">
+                    <span class="rules-modal__title">Reglas del juego</span>
+                    <button class="rules-modal__close" id="rules-close">✕</button>
+                </div>
+                <ol class="rules-list">
+                    <li><div><strong>Inicio:</strong> Cada jugador lanza el dado — el número más alto decide quién empieza.</div></li>
+                    <li><div><strong>Turno:</strong> Lanza el dado y avanza ese número de casillas. ¡Cualquier número saca tu ficha de la base!</div></li>
+                    <li><div><strong>Objetivo:</strong> Da la vuelta completa al tablero, entra por tu color y llega al centro para ganar.</div></li>
+                    <li><div><strong>Cartas:</strong> Al caer en una casilla de carta, avanzas, retrocedes o pierdes un turno según lo que salga.</div></li>
+                    <li><div><strong>Captura:</strong> Si caes donde hay otro jugador, ¡vuelve a su base! Las casillas X son zonas seguras.</div></li>
+                    <li><div><strong>Meta:</strong> Para entrar al centro necesitas el número exacto. ¡Solo hay un ganador!</div></li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== MULTIPLAYER SCREEN ===== -->
+    <div id="multiplayer-screen" class="screen multiplayer-screen hidden">
+        <div class="multiplayer-screen__content">
+            <h2 class="multiplayer-screen__title">Opciones Multijugador</h2>
+            <div class="player-selection">
+                <p class="player-selection__label">Elige la cantidad de jugadores:</p>
+                <div class="player-count-buttons" id="player-count-buttons">
+                    <button class="btn-count" data-count="2">2</button>
+                    <button class="btn-count" data-count="3">3</button>
+                    <button class="btn-count" data-count="4">4</button>
+                </div>
+            </div>
+            <div id="player-names-container" class="player-names-container">
+                <!-- Inputs for names -->
+            </div>
+            <div class="multiplayer-screen__footer">
+                <button class="btn-primary" id="btn-start-game" disabled>Siguiente</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="game-screen" style="display:none;">
+
+        <!-- ===== TURN TIMER ===== -->
+        <div class="turn-timer" id="turn-timer">
+            <div class="turn-timer__bar" id="turn-timer-bar"></div>
+        </div>
+
+        <!-- ===== INTRO BANNER ===== -->
+        <div id="intro-banner" class="intro-banner">
+            <div class="intro-banner__box">
+                <span class="intro-banner__icon">🎲</span>
+                <p class="intro-banner__text">¡Lanza el dado!</p>
+                <p class="intro-banner__sub">El número más alto <strong>inicia</strong> la partida</p>
+            </div>
+        </div>
+
+        <!-- ===== AVATAR: GREEN (top-left) ===== -->
+        <div class="avatar avatar--green" id="avatar-green">
+            <div class="avatar__circle">
+                <svg class="avatar__icon" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="7.5" r="3.5" fill="white"/>
+                    <path d="M4 19c0-3.3 3.6-6 8-6s8 2.7 8 6v1H4v-1z" fill="white"/>
+                </svg>
+            </div>
+            <span class="avatar__name">Alejo :)</span>
+        </div>
+
+        <!-- ===== AVATAR: YELLOW (top-right) ===== -->
+        <div class="avatar avatar--yellow" id="avatar-yellow">
+            <div class="avatar__circle">
+                <svg class="avatar__icon" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="7.5" r="3.5" fill="white"/>
+                    <path d="M4 19c0-3.3 3.6-6 8-6s8 2.7 8 6v1H4v-1z" fill="white"/>
+                </svg>
+            </div>
+            <span class="avatar__name">Sandia23</span>
+        </div>
+
+        <!-- ===== CARD DECK (left) ===== -->
+        <div class="deck" id="deck" title="Haz clic para tomar una carta">
+            <div class="deck__card deck__card--back"></div>
+            <div class="deck__card deck__card--middle"></div>
+            <div class="deck__card deck__card--front"></div>
+        </div>
+
+        <!-- ===== BOARD ===== -->
+        <div class="board-wrapper" id="board-wrapper">
+            <div class="board" id="board">
+                <!-- Bases -->
+                <div class="base base--green" style="grid-row:1/7;grid-column:1/7;">
+                    <div class="base__inner">
+                        <div class="base__circle">
+                            <div class="base__splash-mask"></div>
+                            <div id="token-green" class="token-mask token-mask--green"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="base base--yellow" style="grid-row:1/7;grid-column:10/16;">
+                    <div class="base__inner">
+                        <div class="base__circle">
+                            <div class="base__splash-mask"></div>
+                            <div id="token-yellow" class="token-mask token-mask--yellow"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="base base--red" style="grid-row:10/16;grid-column:1/7;">
+                    <div class="base__inner">
+                        <div class="base__circle">
+                            <div class="base__splash-mask"></div>
+                            <div id="token-red" class="token-mask token-mask--red"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="base base--blue" style="grid-row:10/16;grid-column:10/16;">
+                    <div class="base__inner">
+                        <div class="base__circle">
+                            <div class="base__splash-mask"></div>
+                            <div id="token-blue" class="token-mask token-mask--blue"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center -->
+                <div class="center" style="grid-row:7/10;grid-column:7/10;">
+                    <div class="center__inner">
+                        <span class="center__title-top">CHOLADO</span>
+                        <span class="center__title-bottom">RACE</span>
+                    </div>
+                </div>
+
+                <!-- Path cells are generated by script.js -->
+            </div>
+        </div>
+
+
+
+        <!-- ===== DICE (right) ===== -->
+        <div class="dice-wrapper" id="dice-wrapper" title="Haz clic para lanzar el dado">
+            <div class="dice" id="dice">
+                <!-- Dots generated by script.js -->
+            </div>
+        </div>
+
+        <!-- ===== AVATAR: RED (bottom-left) ===== -->
+        <div class="avatar avatar--red" id="avatar-red">
+            <div class="avatar__circle">
+                <svg class="avatar__icon" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="7.5" r="3.5" fill="white"/>
+                    <path d="M4 19c0-3.3 3.6-6 8-6s8 2.7 8 6v1H4v-1z" fill="white"/>
+                </svg>
+            </div>
+            <span class="avatar__name">Laura_3</span>
+        </div>
+
+        <!-- ===== AVATAR: BLUE (bottom-right) ===== -->
+        <div class="avatar avatar--blue" id="avatar-blue">
+            <div class="avatar__circle">
+                <svg class="avatar__icon" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="7.5" r="3.5" fill="white"/>
+                    <path d="M4 19c0-3.3 3.6-6 8-6s8 2.7 8 6v1H4v-1z" fill="white"/>
+                </svg>
+            </div>
+            <span class="avatar__name">Emily</span>
+        </div>
+
+        <!-- ===== TURN BUTTON ===== -->
+        <button id="turn-btn" style="grid-area:turn-btn">
+            <span id="turn-btn-label">Lanzar dado</span>
+        </button>
+
+        <!-- ===== CARD MODAL ===== -->
+        <div class="modal" id="modal">
+            <div class="modal__backdrop" id="modal-backdrop"></div>
+            <div class="modal__card" id="modal-card">
+                <div class="modal__header" id="modal-header">
+                    <span class="modal__logo-top">CHOLADO</span>
+                    <span class="modal__logo-bottom">RACE</span>
+                </div>
+                <div class="modal__body">
+                    <p class="modal__text" id="modal-text"></p>
+                    <p class="modal__action" id="modal-action"></p>
+                </div>
+                <div class="modal__footer" id="modal-footer">
+                    <button class="modal__close-btn" id="modal-close-btn">✖</button>
+                </div>
+            </div>
+        </div>
+        <!-- ===== EMOJI PICKER ===== -->
+        <div class="emoji-picker" id="emoji-picker">
+            <button class="emoji-picker__toggle" id="emoji-toggle" title="Enviar emoji">😀</button>
+            <div class="emoji-picker__panel hidden" id="emoji-panel">
+                <button class="emoji-pick" data-emoji="😂">😂</button>
+                <button class="emoji-pick" data-emoji="🔥">🔥</button>
+                <button class="emoji-pick" data-emoji="😎">😎</button>
+                <button class="emoji-pick" data-emoji="💀">💀</button>
+                <button class="emoji-pick" data-emoji="🤣">🤣</button>
+                <button class="emoji-pick" data-emoji="😭">😭</button>
+                <button class="emoji-pick" data-emoji="👏">👏</button>
+                <button class="emoji-pick" data-emoji="🎉">🎉</button>
+                <button class="emoji-pick" data-emoji="❤️">❤️</button>
+                <button class="emoji-pick" data-emoji="😡">😡</button>
+                <button class="emoji-pick" data-emoji="🤯">🤯</button>
+                <button class="emoji-pick" data-emoji="🥶">🥶</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js?v=39"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const helpBtn = document.getElementById('help-btn');
+            const rulesModal = document.getElementById('rules-modal');
+            const rulesClose = document.getElementById('rules-close');
+            const rulesBackdrop = document.getElementById('rules-backdrop');
+
+            helpBtn.addEventListener('click', () => {
+                rulesModal.classList.remove('hidden');
+            });
+            rulesClose.addEventListener('click', () => {
+                rulesModal.classList.add('hidden');
+            });
+            rulesBackdrop.addEventListener('click', () => {
+                rulesModal.classList.add('hidden');
+            });
+            // Credits modal
+            const creditsBtn = document.getElementById('credits-btn');
+            const creditsModal = document.getElementById('credits-modal');
+            const creditsClose = document.getElementById('credits-close');
+            const creditsBackdrop = document.getElementById('credits-backdrop');
+
+            creditsBtn.addEventListener('click', () => {
+                creditsModal.classList.remove('hidden');
+            });
+            creditsClose.addEventListener('click', () => {
+                creditsModal.classList.add('hidden');
+            });
+            creditsBackdrop.addEventListener('click', () => {
+                creditsModal.classList.add('hidden');
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') creditsModal.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
